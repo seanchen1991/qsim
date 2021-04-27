@@ -19,9 +19,9 @@ pub struct QComputer {
     capacity: usize,
     /// Register that holds the quantum computer's qubits
     qregister: QuantumRegister,
-    /// Register that holds the classical values that have been yielded by
-    /// measuring the qubits.
-    cregister: ClassicalRegister,
+    /// Register of classical values that only exists once the quantum register
+    /// has been measured.
+    cregister: Option<ClassicalRegister>,
 }
 
 impl Default for QComputer {
@@ -30,7 +30,7 @@ impl Default for QComputer {
             capacity: 1,
             state: State::Initialized,
             qregister: QuantumRegister::default(),
-            cregister: ClassicalRegister::default(),
+            cregister: None,
         }
     }
 }
@@ -41,7 +41,7 @@ impl QComputer {
             capacity,
             state: State::Initialized,
             qregister: QuantumRegister::new(capacity),
-            cregister: ClassicalRegister::new(capacity),
+            cregister: None,
         }
     }
 
@@ -54,10 +54,16 @@ impl QComputer {
         self
     }
 
-    pub fn measure(&mut self) -> ClassicalRegister {
-        self.cregister = self.qregister.measure();
-        self.state = State::Collapsed;
-        self.cregister
+    pub fn measure(&mut self) -> &ClassicalRegister {
+        match self.cregister {
+            Some(ref values) => values,
+            None => {
+                let values = self.qregister.measure();
+                self.cregister = Some(values.clone());
+                self.state = State::Collapsed;
+                values
+            }
+        }
     }
 
     // Not sure if this method should initialize and return a new instance
