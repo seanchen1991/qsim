@@ -1,4 +1,6 @@
+mod utils;
+
 pub mod error;
-pub mod utils;
+pub mod simulator;
 pub mod qubit;
 pub mod quantum_device;
