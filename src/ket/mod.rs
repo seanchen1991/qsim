@@ -32,10 +32,10 @@ impl Default for Ket {
 
 impl From<&ClassicalRegister> for Ket {
     fn from(c: &ClassicalRegister) -> Self {
-        let size = 2usize.pow(c.values.len() as u32);
+        let size = 2usize.pow(c.0.len() as u32);
         let ket = Self::new(size);
 
-        ket.coefficients[u32::from(c) as usize] = Complex::one();
+        ket.coefficients[u32::from(c) as usize] = Complex32::new(1.0, 0.0);
 
         ket
     }
