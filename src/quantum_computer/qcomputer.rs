@@ -17,7 +17,7 @@ pub struct QComputer {
     state: State,
     /// The number of qubits this quantum computer has at its disposal.
     capacity: usize,
-    /// Register that holds the quantum computer's qubits
+    /// Register that holds the quantum computer's qubits.
     qregister: QuantumRegister,
     /// Register of classical values that only exists once the quantum register
     /// has been measured.

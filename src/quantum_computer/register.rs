@@ -2,13 +2,12 @@ use std::fmt;
 
 #[derive(Clone, Debug)]
 pub struct ClassicalRegister {
-    capacity: usize,
     values: Vec<bool>,
 }
 
 impl fmt::Display for ClassicalRegister {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if self.capacity == 1 {
+        if self.values.len() == 1 {
             write!(f, "{}", self.values[0])
         } else {
             write!(f, "{:?}", self.values)
@@ -24,9 +23,13 @@ impl Default for ClassicalRegister {
 
 impl ClassicalRegister {
     pub fn new(capacity: usize) -> Self {
-        Self {
-            capacity,
-            values: vec![false; capacity],
-        }
+        Self { values: vec![false; capacity] }
     }
+}
+
+#[derive(Debug)]
+pub struct QuantumRegister {
+    capacity: usize,
+    collapsed: Option<bool>,
+
 }
