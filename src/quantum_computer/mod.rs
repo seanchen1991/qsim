@@ -1,5 +1,3 @@
-mod register;
-
 pub mod qcomputer;
 
 pub use register::ClassicalRegister;
