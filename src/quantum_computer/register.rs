@@ -1,17 +1,18 @@
 use std::fmt;
+use byteorder::{ByteOrder, BigEndian};
 
 #[derive(Clone, Debug)]
 pub struct ClassicalRegister {
-    values: Vec<bool>,
+    values: Vec<u8>,
 }
 
-impl fmt::Display for ClassicalRegister {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if self.values.len() == 1 {
-            write!(f, "{}", self.values[0])
-        } else {
-            write!(f, "{:?}", self.values)
-        }
+impl ClassicalRegister {
+    pub fn new(capacity: usize) -> Self {
+        Self { values: vec![false; capacity] }
+    }
+
+    pub fn len(&self) -> usize {
+        self.values.len()
     }
 }
 
@@ -21,9 +22,19 @@ impl Default for ClassicalRegister {
     }
 }
 
-impl ClassicalRegister {
-    pub fn new(capacity: usize) -> Self {
-        Self { values: vec![false; capacity] }
+impl From<u32> for ClassicalRegister {
+    fn from(n: u32) -> Self {
+        let mut buf = [0; 4];
+        BigEndian::write_u32(&mut buf, n);
+
+        Self { values: buf.to_vec() }
+    }
+}
+
+impl From<&ClassicalRegister> for u32 {
+    fn from(c: &ClassicalRegister) -> Self {
+        let values = c.values.clone();
+        u32::from_be_bytes(values.try_into().expect("Failed to convert ClassicalRegister to u32"))
     }
 }
 
