@@ -1,3 +1,5 @@
+use super::QuantumComputer;
+
 /// Represents all of the possible states a quantum computer can be in.
 #[derive(Debug, PartialEq, Eq)]
 enum State {
@@ -44,8 +46,10 @@ impl QComputer {
             cregister: None,
         }
     }
+}
 
-    pub fn apply(&mut self, gate: Gate) -> Self {
+impl QuantumComputer for QComputer {
+    fn apply(&mut self, gate: Gate) -> Self {
         assert_ne!(self.state, State::Collapsed);
 
         self.state = State::Running;
@@ -54,7 +58,7 @@ impl QComputer {
         self
     }
 
-    pub fn measure(&mut self) -> &ClassicalRegister {
+    fn measure(&mut self) -> &ClassicalRegister {
         match self.cregister {
             Some(ref values) => values,
             None => {
@@ -69,7 +73,7 @@ impl QComputer {
     // Not sure if this method should initialize and return a new instance
     // or just reset the state of the current instance.
     // For now, just reset the state of the current instance.
-    pub fn reset(&mut self) {
+    fn reset(&mut self) {
         self.state = State::Initialized;
     }
 }
