@@ -31,6 +31,17 @@ impl Ket {
         let sample = rand::random::<f32>() % 1.0;
         let mut acc = 0_f32;
 
+        for (basis, coefficient) in self.0.iter().enumerate() {
+            acc += coefficient.norm_sqr();
+
+            if sample < acc {
+                return ClassicalRegister::from(basis as u32);
+            }
+        }
+        
+        // If we got here, that means we didn't get a successful measurement
+        // due to floating point imprecision.
+        // TODO: Log this somewhere.
         ClassicalRegister::from(0)
     }
 }
