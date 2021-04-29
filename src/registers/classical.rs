@@ -3,7 +3,7 @@ use byteorder::{ByteOrder, BigEndian};
 
 pub const REGISTER_SIZE: usize = 4;
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone)]
 pub struct ClassicalRegister([u8; REGISTER_SIZE]);
 
 impl Default for ClassicalRegister {

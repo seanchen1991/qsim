@@ -8,9 +8,9 @@ use crate::registers::ClassicalRegister;
 pub struct Ket(Array2<Complex32>);
 
 impl Ket {
-    pub fn new() -> Self {
-        Self::default()
-    }
+    // pub fn new() -> Self {
+    //     Self::default()
+    // }
 
     pub fn apply(&mut self, gate: Gate) -> Self {
         let old_ket = &self.0;
@@ -34,13 +34,3 @@ impl Default for Ket {
     }
 }
 
-// impl From<&ClassicalRegister> for Ket {
-//     fn from(c: &ClassicalRegister) -> Self {
-//         let size = 2usize.pow(c.0.len() as u32);
-//         let ket = Self::new(size);
-
-//         ket.coefficients[u32::from(c) as usize] = Complex32::new(1.0, 0.0);
-
-//         ket
-//     }
-// }
