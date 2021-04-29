@@ -9,16 +9,22 @@ use crate::gate::Gate;
 /// state has been measured and yielded a `ClassicalRegister`.
 #[derive(Debug, Clone)]
 enum State {
+    /// The superposition state; the inner `Ket` state of the quantum register can be 
+    /// affected by quantum gates.
     Superposition(Ket),
+    /// The collapsed state; the inner `Ket` state of the quantum register has been 
+    /// measured, yielding a classical value.
     Collapsed(ClassicalRegister),
 }
 
+/// A register that holds on to the quantum system's qubits.
 #[derive(Debug, Clone)]
 pub struct QuantumRegister {
     state: State
 }
 
 impl Default for QuantumRegister {
+    /// QuantumRegister defaults to a single-qubit `Ket` state, which is a 2x1 matrix.
     fn default() -> Self {
         Self {
             state: State::Superposition(Ket::default())
