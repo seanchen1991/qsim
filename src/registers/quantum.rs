@@ -1,27 +1,47 @@
 use super::ClassicalRegister;
 
-use crate::key::Ket;
+use crate::ket::Ket;
+use crate::gate::Gate;
+
+/// Represents the states a QuantumRegister may be in. A register may either
+/// be in superposition, which means the inner `Ket` state may still be
+/// affected by quantum gates, or collapsed, which means the inner `Ket`
+/// state has been measured and yielded a `ClassicalRegister`.
+#[derive(Debug, Clone)]
+enum State {
+    Superposition(Ket),
+    Collapsed(ClassicalRegister),
+}
 
 #[derive(Debug, Clone)]
 pub struct QuantumRegister {
-    width: usize,
-    collapsed: bool,
-    ket: Ket,
+    state: State
 }
 
 impl QuantumRegister {
-    /// Initializes a new QuantumRegister with `capacity` qubits.
-    pub fn new(capacity: usize) -> Self {
-        todo!();
+    pub fn new() -> Self {
+        Self {
+            state: State::Superposition(Ket::default())
+        }
     }
 
     /// Collapses the QuantumRegister into a ClassicalRegister.
     pub fn measure(&mut self) -> ClassicalRegister {
-        todo!();
+        match self.state {
+            State::Collapsed(ref cr) => cr.to_owned(),
+            State::Superposition(ket) => {
+                let measurement = ket.measure();
+                self.state = measurement.clone();
+                measurement
+            }
+        }
     }
 
     /// Applies the given gate to the state of the QuantumRegister.
-    pub fn apply(&mut self, gate: Gate) {
-        todo!();
+    pub fn apply(&mut self, gate: Gate) -> Self {
+        match self.state {
+            State::Superposition(ket) => Self { state: State::Superposition(ket.apply(gate)) },
+            _ => self.clone(),
+        }
     }
 }
