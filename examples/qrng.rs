@@ -1,14 +1,10 @@
 use qsim::gate::Gate;
-use qsim::quantum_computer::{
-    QuantumComputer,
-    QComputer,
-};
+use qsim::quantum_computer::{QComputer, QuantumComputer};
 
 fn qrng() -> u32 {
     let qc = QComputer::default();
 
-    let mut qc = qc.apply(Gate::hadamard())
-        .apply(Gate::pauli_x());
+    let mut qc = qc.apply(Gate::hadamard()).apply(Gate::pauli_x());
 
     qc.measure().into()
 }
@@ -18,4 +14,3 @@ fn main() {
         println!("Qrng: {}", qrng());
     }
 }
-

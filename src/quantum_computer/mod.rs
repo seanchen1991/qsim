@@ -1,8 +1,8 @@
 pub mod qcomputer;
 
-pub use qcomputer::*;
 pub use crate::gate::Gate;
 pub use crate::registers::ClassicalRegister;
+pub use qcomputer::*;
 
 /// A QuantumComputer is the main way of working with a quantum device, whether
 /// it be simulated or backed by actual quantum hardware.
