@@ -1,5 +1,8 @@
 use super::QuantumComputer;
 
+use crate::gate::Gate;
+use crate::registers::{ClassicalRegister, QuantumRegister};
+
 /// Represents all of the possible states a quantum computer can be in.
 #[derive(Debug, PartialEq, Eq)]
 enum State {
@@ -42,14 +45,14 @@ impl QComputer {
         Self {
             capacity,
             state: State::Initialized,
-            qregister: QuantumRegister::new(capacity),
+            qregister: QuantumRegister::default(),
             cregister: None,
         }
     }
 }
 
 impl QuantumComputer for QComputer {
-    fn apply(&mut self, gate: Gate) -> Self {
+    fn apply(self, gate: Gate) -> Self {
         assert_ne!(self.state, State::Collapsed);
 
         self.state = State::Running;
@@ -58,9 +61,9 @@ impl QuantumComputer for QComputer {
         self
     }
 
-    fn measure(&mut self) -> &ClassicalRegister {
+    fn measure(&mut self) -> ClassicalRegister {
         match self.cregister {
-            Some(ref values) => values,
+            Some(ref values) => values.to_owned(),
             None => {
                 let values = self.qregister.measure();
                 self.cregister = Some(values.clone());

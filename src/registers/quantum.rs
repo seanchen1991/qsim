@@ -18,11 +18,17 @@ pub struct QuantumRegister {
     state: State
 }
 
-impl QuantumRegister {
-    pub fn new() -> Self {
+impl Default for QuantumRegister {
+    fn default() -> Self {
         Self {
             state: State::Superposition(Ket::default())
         }
+    }
+}
+
+impl QuantumRegister {
+    pub fn new() -> Self {
+        Self::default()
     }
 
     /// Collapses the QuantumRegister into a ClassicalRegister.
@@ -31,7 +37,7 @@ impl QuantumRegister {
             State::Collapsed(ref cr) => cr.to_owned(),
             State::Superposition(ket) => {
                 let measurement = ket.measure();
-                self.state = measurement.clone();
+                self.state = State::Collapsed(measurement.clone());
                 measurement
             }
         }
@@ -40,8 +46,10 @@ impl QuantumRegister {
     /// Applies the given gate to the state of the QuantumRegister.
     pub fn apply(&mut self, gate: Gate) -> Self {
         match self.state {
-            State::Superposition(ket) => Self { state: State::Superposition(ket.apply(gate)) },
-            _ => self.clone(),
+            State::Superposition(ket) => {
+                Self { state: State::Superposition(ket.apply(gate)) }
+            }
+            State::Collapsed(_) => self.clone(),
         }
     }
 }

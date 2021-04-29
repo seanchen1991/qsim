@@ -1,9 +1,3 @@
-#[cfg(test)]
-extern crate quickcheck;
-#[cfg(test)]
-#[macro_use(quickcheck)]
-extern crate quickcheck_macros;
-
 use std::fmt;
 use byteorder::{ByteOrder, BigEndian};
 
@@ -41,6 +35,7 @@ impl From<&ClassicalRegister> for u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use quickcheck::quickcheck;
 
     #[quickcheck]
     fn double_conversion_is_identity(xs: u32) -> bool {
