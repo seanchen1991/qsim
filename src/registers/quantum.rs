@@ -1,7 +1,7 @@
 use super::ClassicalRegister;
 
-use crate::ket::Ket;
 use crate::gate::Gate;
+use crate::ket::Ket;
 
 /// Represents the states a QuantumRegister may be in. A register may either
 /// be in superposition, which means the inner `Ket` state may still be
@@ -9,10 +9,10 @@ use crate::gate::Gate;
 /// state has been measured and yielded a `ClassicalRegister`.
 #[derive(Debug, Clone)]
 enum State {
-    /// The superposition state; the inner `Ket` state of the quantum register can be 
+    /// The superposition state; the inner `Ket` state of the quantum register can be
     /// affected by quantum gates.
     Superposition(Ket),
-    /// The collapsed state; the inner `Ket` state of the quantum register has been 
+    /// The collapsed state; the inner `Ket` state of the quantum register has been
     /// measured, yielding a classical value.
     Collapsed(ClassicalRegister),
 }
@@ -20,14 +20,14 @@ enum State {
 /// A register that holds on to the quantum system's qubits.
 #[derive(Debug, Clone)]
 pub struct QuantumRegister {
-    state: State
+    state: State,
 }
 
 impl Default for QuantumRegister {
     /// QuantumRegister defaults to a single-qubit `Ket` state, which is a 2x1 matrix.
     fn default() -> Self {
         Self {
-            state: State::Superposition(Ket::default())
+            state: State::Superposition(Ket::default()),
         }
     }
 }

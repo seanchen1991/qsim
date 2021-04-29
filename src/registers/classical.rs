@@ -1,5 +1,5 @@
+use byteorder::{BigEndian, ByteOrder};
 use std::fmt;
-use byteorder::{ByteOrder, BigEndian};
 
 pub const REGISTER_SIZE: usize = 4;
 
@@ -45,4 +45,3 @@ mod tests {
         xs == back
     }
 }
-

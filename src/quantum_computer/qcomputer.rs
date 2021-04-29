@@ -55,11 +55,17 @@ impl QuantumComputer for QComputer {
             State::Initialized => {
                 let mut qr = QuantumRegister::default();
                 qr.apply(gate);
-                Self { capacity: self.capacity, state: State::Running(qr) }
+                Self {
+                    capacity: self.capacity,
+                    state: State::Running(qr),
+                }
             }
             State::Running(mut qr) => {
                 qr.apply(gate);
-                Self { capacity: self.capacity, state: State::Running(qr) }
+                Self {
+                    capacity: self.capacity,
+                    state: State::Running(qr),
+                }
             }
         }
     }

@@ -4,7 +4,7 @@ use num_complex::{Complex, Complex32};
 /// Representation of a quantum gate.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Gate {
-    pub inner: Array2<Complex32>
+    pub inner: Array2<Complex32>,
 }
 
 impl Gate {
@@ -26,7 +26,9 @@ impl Gate {
             [Complex32::new(1.0, 0.0), Complex32::new(-1.0, 0.0)],
         ]);
 
-        Self { inner: matrix.map_mut(|c| c.unscale(sqrt2)) }
+        Self {
+            inner: matrix.map_mut(|c| c.unscale(sqrt2)),
+        }
     }
 
     /// Produces the Pauli-X gate, the analog of the classical NOT gate.
