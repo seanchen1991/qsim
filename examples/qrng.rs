@@ -4,7 +4,7 @@ use qsim::quantum_computer::{QComputer, QuantumComputer};
 fn qrng() -> u32 {
     let qc = QComputer::default();
 
-    let mut qc = qc.apply(Gate::hadamard()).apply(Gate::pauli_x());
+    let mut qc = qc.apply(Gate::hadamard());
 
     qc.measure().into()
 }
