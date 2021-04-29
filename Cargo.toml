@@ -10,6 +10,7 @@ byteorder = "*"
 ndarray = "*"
 num-complex = "*"
 num-traits = "*"
+rand = "*"
 
 [dev-dependencies]
 quickcheck = "*"

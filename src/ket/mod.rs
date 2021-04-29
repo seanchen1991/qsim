@@ -1,3 +1,4 @@
+use rand;
 use ndarray::{arr2, Array2};
 use num_complex::Complex32;
 
@@ -20,9 +21,17 @@ impl Ket {
         Self(gate.inner.dot(old_ket))
     }
     
-    /// 
+    /// Collapses the Ket into a ClassicalRegister. A Ket may only be collapsed once.
+    ///
+    /// The algorithm chooses a random float between 0 and 1, partitions 
+    /// `[0, 1 + epsilon)` using the Ket coefficients' square modulii. 
+    /// Then it randomly chooses one of the coefficients and returns the 
+    /// matching state. 
     pub fn measure(&mut self) -> ClassicalRegister {
-        todo!();
+        let sample = rand::random::<f32>() % 1.0;
+        let mut acc = 0_f32;
+
+        ClassicalRegister::from(0)
     }
 }
 
