@@ -53,11 +53,11 @@ impl QuantumComputer for QComputer {
                 self
             }
             State::Initialized => {
-                let qr = QuantumRegister::default();
+                let mut qr = QuantumRegister::default();
                 qr.apply(gate);
                 Self { capacity: self.capacity, state: State::Running(qr) }
             }
-            State::Running(qr) => {
+            State::Running(mut qr) => {
                 qr.apply(gate);
                 Self { capacity: self.capacity, state: State::Running(qr) }
             }
@@ -67,12 +67,12 @@ impl QuantumComputer for QComputer {
     fn measure(&mut self) -> ClassicalRegister {
         match self.state {
             State::Initialized => ClassicalRegister::default(),
-            State::Running(qr) => {
+            State::Running(ref mut qr) => {
                 let measurement = qr.measure();
                 self.state = State::Collapsed(measurement.clone());
                 measurement
             }
-            State::Collapsed(cr) => cr.to_owned(),
+            State::Collapsed(ref cr) => cr.to_owned(),
         }
     }
 

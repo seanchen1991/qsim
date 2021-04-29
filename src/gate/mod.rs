@@ -3,7 +3,9 @@ use num_complex::Complex32;
 
 /// Representation of a quantum gate.
 #[derive(Clone, Debug, PartialEq)]
-pub struct Gate(Array2<Complex32>);
+pub struct Gate {
+    pub inner: Array2<Complex32>
+}
 
 impl Gate {
     /// Produces the Identity gate.
@@ -13,7 +15,7 @@ impl Gate {
             [Complex32::new(0.0, 0.0), Complex32::new(1.0, 0.0)],
         ]);
 
-        Self(matrix)
+        Self { inner: matrix }
     }
 
     /// Produces the Hadamard gate.
@@ -24,6 +26,6 @@ impl Gate {
             [Complex32::new(1.0, 0.0), Complex32::new(-1.0, 0.0)],
         ]);
 
-        Self(matrix.map_mut(|c| c.unscale(sqrt2)))
+        Self { inner: matrix.map_mut(|c| c.unscale(sqrt2)) }
     }
 }

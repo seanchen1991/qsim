@@ -4,7 +4,7 @@ use num_complex::Complex32;
 use crate::gate::Gate;
 use crate::registers::ClassicalRegister;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Ket(Array2<Complex32>);
 
 impl Ket {
@@ -14,7 +14,7 @@ impl Ket {
 
     pub fn apply(&mut self, gate: Gate) -> Self {
         let old_ket = &self.0;
-        Self(old_ket.dot(&gate))
+        Self(gate.inner.dot(old_ket))
     }
 
     pub fn measure(&mut self) -> ClassicalRegister {

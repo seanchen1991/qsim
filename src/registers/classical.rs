@@ -33,6 +33,7 @@ impl From<&ClassicalRegister> for u32 {
 }
 
 #[cfg(test)]
+
 mod tests {
     use super::*;
     use quickcheck::quickcheck;

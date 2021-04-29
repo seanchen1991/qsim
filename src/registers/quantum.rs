@@ -35,7 +35,7 @@ impl QuantumRegister {
     pub fn measure(&mut self) -> ClassicalRegister {
         match self.state {
             State::Collapsed(ref cr) => cr.to_owned(),
-            State::Superposition(ket) => {
+            State::Superposition(ref mut ket) => {
                 let measurement = ket.measure();
                 self.state = State::Collapsed(measurement.clone());
                 measurement
@@ -46,7 +46,7 @@ impl QuantumRegister {
     /// Applies the given gate to the state of the QuantumRegister.
     pub fn apply(&mut self, gate: Gate) {
         match self.state {
-            State::Superposition(ket) => {
+            State::Superposition(ref mut ket) => {
                 self.state = State::Superposition(ket.apply(gate));
             }
             State::Collapsed(_) => {}
