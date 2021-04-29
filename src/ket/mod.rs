@@ -16,9 +16,9 @@ impl Ket {
     // }
 
     /// Applies the given gate to the inner matrix by performing matrix multiplication.
-    pub fn apply(&mut self, gate: Gate) -> Self {
+    pub fn apply(&mut self, gate: Gate) {
         let old_ket = &self.0;
-        Self(gate.inner.dot(old_ket))
+        self.0 = gate.inner.dot(old_ket);
     }
 
     /// Collapses the Ket into a ClassicalRegister. A Ket may only be collapsed once.

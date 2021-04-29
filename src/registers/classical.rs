@@ -26,8 +26,8 @@ impl From<u32> for ClassicalRegister {
     }
 }
 
-impl From<&ClassicalRegister> for u32 {
-    fn from(c: &ClassicalRegister) -> Self {
+impl From<ClassicalRegister> for u32 {
+    fn from(c: ClassicalRegister) -> Self {
         BigEndian::read_u32(&c.0)
     }
 }

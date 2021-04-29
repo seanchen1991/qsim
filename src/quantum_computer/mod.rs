@@ -1,5 +1,6 @@
 pub mod qcomputer;
 
+pub use qcomputer::*;
 pub use crate::gate::Gate;
 pub use crate::registers::ClassicalRegister;
 

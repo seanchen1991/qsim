@@ -53,7 +53,8 @@ impl QuantumRegister {
     pub fn apply(&mut self, gate: Gate) {
         match self.state {
             State::Superposition(ref mut ket) => {
-                self.state = State::Superposition(ket.apply(gate));
+                ket.apply(gate);
+                self.state = State::Superposition(ket.to_owned());
             }
             State::Collapsed(_) => {}
         }
